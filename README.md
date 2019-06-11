@@ -5,7 +5,7 @@
 <br /><br />
 <a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg"></a>
 <a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"></a><br />
-<img src="https://img.shields.io/badge/platforms-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-333333.svg" />
+<img src="https://img.shields.io/badge/platforms-iOS%2013.0%20%7C%20macOS%2010.15%20%7C%20tvOS%2013.0%20%7C%20watchOS%206%20%7C%20Linux-333333.svg" />
 
 
 </p>
@@ -14,13 +14,45 @@ RxCombine provides bi-directional type bridging between [RxSwift](https://github
 
 **Note**: This is highly experimental, and basically just a quickly-put-together MVP. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
 
+# Basic Examples
+
+Check out the Example App in the **ExampleApp** folder.
+
+<p align="center"><img src="Resources/example.gif" width="400"></p>
+
+# Installation
+
+## CocoaPods
+
+Add the following line to your **Podfile**:
+
+```rb
+pod 'RxCombine'
+```
+
+## Swift Package Manager
+
+Add the following dependency to your **Package.swift** file:
+
+```swift
+.package(url: "https://github.com/freak4pc/RxCombine.git", from: "1.0.0")
+```
+
+## Carthage
+
+No Carthage support yet. I hope to have the time to take care of it soon. 
+
+Feel free to open a PR ! 
+
 # I want to ...
 
 ## Use RxSwift in my Combine code
 
 RxCombine provides several helpers and conversions to help you bridge your existing RxSwift types to Combine.
 
-* `Observable` (and other `ObservableConvertibleType`s) have a  `publisher` property which which returns a `AnyPublisher<Element, Swift.Error>` mirroring the underlying `Observable`.
+**Note**: If you want to learn more about the parallel operators in Combine from RxSwift, check out my [RxSwift to Combine Cheat Sheet](https://medium.com/gett-engineering/rxswift-to-apples-combine-cheat-sheet-e9ce32b14c5b) *(or on [GitHub](https://github.com/freak4pc/rxswift-to-combine-cheatsheet))*.
+
+* `Observable` (and other `ObservableConvertibleType`s) have a  `publisher` property which returns a `AnyPublisher<Element, Swift.Error>` mirroring the underlying `Observable`.
 
 ```swift
 let observable = Observable.just("Hello, Combine!")
@@ -45,14 +77,13 @@ relay.send(2)
 relay.send(3)
 ```
 
-
-## Use Combine types in my RxSwift code
+## Use Combine in my RxSwift code
 
 RxCombine provides several helpers and conversions to help you bridge Combine code and types into your existing RxSwift codebase.
 
 * `Publisher`s have a `asObservable()` method, providing an `Observable<Output>` mirroring the underlying `Publisher`.
 ```swift
-
+// A publisher publishing numbers from 0 to 100.
 let publisher = AnyPublisher<Int, Swift.Error> { subscriber in
     (0...100).forEach { _ = subscriber.receive($0) }
     subscriber.receive(completion: .finished)
@@ -74,12 +105,13 @@ publisher.asObservable()
          .bind(to: relay) // Disposable
 
 publisher.asObservable()
-         .susbcribe(to: relay.asAnyObserver()) // Disposable
+         .susbcribe(relay.asAnyObserver()) // Disposable
 ```
 
-# Future ideas
+# Future ideas 
 
 * Add CI / Tests
+* Carthage Support
 * Bridge SwiftUI with RxCocoa/RxSwift
 * Partial Backpressure support, perhaps?
 * ... your ideas? :)
