@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
     s.tvos.deployment_target = '13.0'
   
     s.source_files          = 'Sources/**/*.swift'
-    s.dependency 'RxSwift'
-    s.dependency 'RxRelay'
+    s.dependency 'RxSwift', '~> 5'
+    s.dependency 'RxRelay', '~> 5'
 
     s.swift_version = '5.0'
   end

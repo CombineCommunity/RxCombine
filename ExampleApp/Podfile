@@ -1,0 +1,7 @@
+platform :ios, '13.0'
+
+target 'ExampleApp' do
+  use_frameworks!
+
+  pod 'RxCombine', :path => '../'
+end
