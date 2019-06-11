@@ -14,15 +14,15 @@ RxCombine provides bi-directional type bridging between [RxSwift](https://github
 
 **Note**: This is highly experimental, and basically just a quickly-put-together MVP. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
 
-# Basic Examples
+## Basic Examples
 
 Check out the Example App in the **ExampleApp** folder.
 
 <p align="center"><img src="Resources/example.gif" width="400"></p>
 
-# Installation
+## Installation
 
-## CocoaPods
+### CocoaPods
 
 Add the following line to your **Podfile**:
 
@@ -30,7 +30,7 @@ Add the following line to your **Podfile**:
 pod 'RxCombine'
 ```
 
-## Swift Package Manager
+### Swift Package Manager
 
 Add the following dependency to your **Package.swift** file:
 
@@ -38,15 +38,15 @@ Add the following dependency to your **Package.swift** file:
 .package(url: "https://github.com/freak4pc/RxCombine.git", from: "1.0.0")
 ```
 
-## Carthage
+### Carthage
 
 No Carthage support yet. I hope to have the time to take care of it soon. 
 
 Feel free to open a PR ! 
 
-# I want to ...
+## I want to ...
 
-## Use RxSwift in my Combine code
+### Use RxSwift in my Combine code
 
 RxCombine provides several helpers and conversions to help you bridge your existing RxSwift types to Combine.
 
@@ -77,7 +77,7 @@ relay.send(2)
 relay.send(3)
 ```
 
-## Use Combine in my RxSwift code
+### Use Combine in my RxSwift code
 
 RxCombine provides several helpers and conversions to help you bridge Combine code and types into your existing RxSwift codebase.
 
@@ -108,7 +108,7 @@ publisher.asObservable()
          .susbcribe(relay.asAnyObserver()) // Disposable
 ```
 
-# Future ideas 
+## Future ideas 
 
 * Add CI / Tests
 * Carthage Support
@@ -116,7 +116,7 @@ publisher.asObservable()
 * Partial Backpressure support, perhaps?
 * ... your ideas? :)
 
-# License
+## License
 
 MIT, of course ;-) See the [LICENSE](LICENSE) file. 
 
