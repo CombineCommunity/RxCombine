@@ -46,7 +46,7 @@ public extension AnyObserverConvertible {
 extension PassthroughSubject: AnyObserverConvertible where Failure == Swift.Error {}
 extension CurrentValueSubject: AnyObserverConvertible where Failure == Swift.Error {}
 
-extension ObservableType {
+public extension ObservableType {
     /**
      Creates new subscription and sends elements to a Combine Subject.
 

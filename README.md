@@ -12,11 +12,11 @@
 
 RxCombine provides bi-directional type bridging between [RxSwift](https://github.com/ReactiveX/RxSwift.git) and Apple's [Combine](https://developer.apple.com/documentation/combine) framework.
 
-**Note**: This is highly experimental, and basically just a quickly-put-together MVP. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
+**Note**: This is highly experimental PoC, and basically just a quickly-put-together MVP. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
 
 ## Basic Examples
 
-Check out the Example App in the **ExampleApp** folder.
+Check out the Example App in the **ExampleApp** folder. Run `pod install` before opening the project.
 
 <p align="center"><img src="Resources/example.gif" width="400"></p>
 
@@ -97,15 +97,22 @@ publisher
 * `PassthroughSubject` and `CurrentValueSubject` both have a `asAnyObserver()` method which returns a `AnyObserver<Output>`. Binding to it from your RxSwift code pushes the events to the underlying Combine Subject.
 
 ```swift
-let relay = PublishRelay<Int>()
+// Combine Subject
+let subject = PassthroughSubject<Int, Swift.Error>()
 
-// Convert a RxSwift Observable to a AnyPubliser<Int, Swift.Error>
-// and bind it back to a PublishRelay<Int> 🤯🤯🤯
-publisher.asObservable()
-         .bind(to: relay) // Disposable
+// A publisher publishing numbers from 0 to 100.
+let publisher = AnyPublisher<Int, Swift.Error> { subscriber in
+    (0...100).forEach { _ = subscriber.receive($0) }
+    subscriber.receive(completion: .finished)
+}
 
+// Convert a Publisher to an Observable and bind it
+// back to a Combine Subject 🤯🤯🤯
 publisher.asObservable()
-         .susbcribe(relay.asAnyObserver()) // Disposable
+            .bind(to: subject)
+
+Observable.of(10, 5, 7, 4, 1,  6)
+            .subscribe(subject.asAnyObserver())
 ```
 
 ## Future ideas 

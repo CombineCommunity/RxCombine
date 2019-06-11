@@ -16,7 +16,7 @@ extension BehaviorRelay: Publisher {
     public typealias Failure = Never
 
     public func receive<S: Subscriber>(subscriber: S) where BehaviorRelay.Failure == S.Failure,
-                                                          BehaviorRelay.Output == S.Input {
+                                                            BehaviorRelay.Output == S.Input {
         _ = self.subscribe(subscriber.pushRxEvent)
     }
 }
@@ -38,7 +38,7 @@ extension PublishRelay: Publisher {
     public typealias Failure = Never
 
     public func receive<S: Subscriber>(subscriber: S) where PublishRelay.Failure == S.Failure,
-                                                          PublishRelay.Output == S.Input {
+                                                            PublishRelay.Output == S.Input {
         _ = self.subscribe(subscriber.pushRxEvent)
     }
 }

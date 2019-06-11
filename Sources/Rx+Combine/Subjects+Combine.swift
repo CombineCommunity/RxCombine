@@ -36,7 +36,7 @@ extension BehaviorSubject: Combine.Subject {
 // MARK: - Publish Subject as Combine Subject
 extension PublishSubject: Combine.Subject {
     public func receive<S: Subscriber>(subscriber: S) where PublishSubject.Failure == S.Failure,
-                                                          PublishSubject.Output == S.Input {
+                                                            PublishSubject.Output == S.Input {
         _ = subscribe(subscriber.pushRxEvent)
     }
 
