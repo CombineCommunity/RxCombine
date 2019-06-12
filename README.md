@@ -6,13 +6,11 @@
 <a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg"></a>
 <a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"></a><br />
 <img src="https://img.shields.io/badge/platforms-iOS%2013.0%20%7C%20macOS%2010.15%20%7C%20tvOS%2013.0%20%7C%20watchOS%206%20%7C%20Linux-333333.svg" />
-
-
 </p>
 
 RxCombine provides bi-directional type bridging between [RxSwift](https://github.com/ReactiveX/RxSwift.git) and Apple's [Combine](https://developer.apple.com/documentation/combine) framework.
 
-**Note**: This is highly experimental PoC, and basically just a quickly-put-together MVP. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
+**Note**: This is highly experimental, and basically just a quickly-put-together PoC. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
 
 ## Basic Examples
 
@@ -27,7 +25,7 @@ Check out the Example App in the **ExampleApp** folder. Run `pod install` before
 Add the following line to your **Podfile**:
 
 ```rb
-pod 'RxCombine'
+pod 'RxCombine', :git => 'https://github.com/freak4pc/RxCombine', :branch => 'master'
 ```
 
 ### Swift Package Manager
@@ -109,10 +107,10 @@ let publisher = AnyPublisher<Int, Swift.Error> { subscriber in
 // Convert a Publisher to an Observable and bind it
 // back to a Combine Subject 🤯🤯🤯
 publisher.asObservable()
-            .bind(to: subject)
+         .bind(to: subject)
 
 Observable.of(10, 5, 7, 4, 1,  6)
-            .subscribe(subject.asAnyObserver())
+          .subscribe(subject.asAnyObserver())
 ```
 
 ## Future ideas 
