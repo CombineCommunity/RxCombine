@@ -1,9 +1,9 @@
 # RxCombine
 
 <p align="center">
-<img src="Resources/logo.png" width="220-">
+<img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/logo.png" width="220">
 <br /><br />
-<a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg"></a>
+<a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg?1"></a>
 <a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"></a><br />
 <img src="https://img.shields.io/badge/platforms-iOS%2013.0%20%7C%20macOS%2010.15%20%7C%20tvOS%2013.0%20%7C%20watchOS%206%20%7C%20Linux-333333.svg" />
 </p>
@@ -16,7 +16,7 @@ RxCombine provides bi-directional type bridging between [RxSwift](https://github
 
 Check out the Example App in the **ExampleApp** folder. Run `pod install` before opening the project.
 
-<p align="center"><img src="Resources/example.gif" width="400"></p>
+<p align="center"><img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/example.gif" width="400"></p>
 
 ## Installation
 
@@ -25,7 +25,7 @@ Check out the Example App in the **ExampleApp** folder. Run `pod install` before
 Add the following line to your **Podfile**:
 
 ```rb
-pod 'RxCombine', :git => 'https://github.com/freak4pc/RxCombine', :branch => 'master'
+pod 'RxCombine'
 ```
 
 ### Swift Package Manager
