@@ -12,7 +12,7 @@ import RxSwift
 public extension ObservableConvertibleType {
     /// An `AnyPublisher` of the underlying Observable's Element type
     /// so the Observable pushes events to the Publisher.
-    var publisher: AnyPublisher<Element, Swift.Error> {
+    func asPublisher() -> AnyPublisher<Element, Swift.Error> {
         return AnyPublisher<Element, Swift.Error> { subscriber in
             subscriber.receive(subscription: RxSubscription(disposable: self.asObservable()
                                                                             .subscribe(subscriber.pushRxEvent)))
