@@ -10,7 +10,7 @@
 
 RxCombine provides bi-directional type bridging between [RxSwift](https://github.com/ReactiveX/RxSwift.git) and Apple's [Combine](https://developer.apple.com/documentation/combine) framework.
 
-**Note**: This is highly experimental, and basically just a quickly-put-together PoC. I gladly except PRs, ideas, opinions, or improvements. Thank you ! :)
+**Note**: This is highly experimental, and basically just a quickly-put-together PoC. I gladly accept PRs, ideas, opinions, or improvements. Thank you ! :)
 
 ## Basic Examples
 
