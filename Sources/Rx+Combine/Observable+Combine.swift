@@ -14,9 +14,10 @@ public extension ObservableConvertibleType {
     ///
     /// - returns: AnyPublisher<Element, Swift.Error>
     func asPublisher() -> AnyPublisher<Element, Swift.Error> {
-        return AnyPublisher<Element, Swift.Error> { subscriber in
-            subscriber.receive(subscription: RxSubscription(disposable: self.asObservable()
-                                                                            .subscribe(subscriber.pushRxEvent)))
+        AnyPublisher<Element, Swift.Error> { subscriber in
+            subscriber.receive(
+                subscription: RxSubscription(disposable: self.asObservable().subscribe(subscriber.pushRxEvent))
+            )
         }
     }
 }
