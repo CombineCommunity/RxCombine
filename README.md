@@ -14,20 +14,32 @@ RxCombine provides bi-directional type bridging between [RxSwift](https://github
 
 ## Basic Examples
 
-Check out the Example App in the **ExampleApp** folder. Run `pod install` before opening the project.
+Check out the Example App in the **ExampleApp** folder. Run `pod install` or `carthage update` before opening the project.
 
 <p align="center"><img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/example.gif" width="400"></p>
+
+## Future ideas 
+
+* Add CI / Tests
+* Carthage Support ✅
+* Bridge SwiftUI with RxCocoa/RxSwift
+* Partial Backpressure support, perhaps?
+* ... your ideas? :)
 
 ## Installation
 
 ### CocoaPods
 
-Add the following line to your **Podfile**:
+Add the following line to your **Podfile** or **Carthage**:
 
 ```rb
 pod 'RxCombine'
 ```
-
+or
+ 
+```rb
+github "freak4pc/RxCombine"
+```
 ### Swift Package Manager
 
 Add the following dependency to your **Package.swift** file:
@@ -112,14 +124,6 @@ publisher.asObservable()
 Observable.of(10, 5, 7, 4, 1,  6)
           .subscribe(subject.asAnyObserver())
 ```
-
-## Future ideas 
-
-* Add CI / Tests
-* Carthage Support
-* Bridge SwiftUI with RxCocoa/RxSwift
-* Partial Backpressure support, perhaps?
-* ... your ideas? :)
 
 ## License
 
