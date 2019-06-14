@@ -38,9 +38,13 @@ Add the following dependency to your **Package.swift** file:
 
 ### Carthage
 
-No Carthage support yet. I hope to have the time to take care of it soon. 
+Carthage support is offered as a prebuilt binary.
 
-Feel free to open a PR ! 
+Add the following to your **Cartfile**:
+
+```
+github "freak4pc/RxCombine"
+```
 
 ## I want to ...
 
@@ -116,7 +120,7 @@ Observable.of(10, 5, 7, 4, 1,  6)
 ## Future ideas 
 
 * Add CI / Tests
-* Carthage Support
+* ~~Carthage Support~~
 * Bridge SwiftUI with RxCocoa/RxSwift
 * Partial Backpressure support, perhaps?
 * ... your ideas? :)
