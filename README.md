@@ -3,8 +3,10 @@
 <p align="center">
 <img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/logo.png" width="220">
 <br /><br />
-<a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg?1"></a>
-<a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"></a><br />
+<a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg?1" alt="RxCombine supports CocoaPods"></a>
+<a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg" alt="RxCombine supports Swift Package Manager (SPM)"></a>
+<a href="https://github.com/Carthage/Carthage" target="_blank"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="RxCombine supports Carthage"></a>
+<br />
 <img src="https://img.shields.io/badge/platforms-iOS%2013.0%20%7C%20macOS%2010.15%20%7C%20tvOS%2013.0%20%7C%20watchOS%206%20%7C%20Linux-333333.svg" />
 </p>
 
@@ -38,9 +40,13 @@ Add the following dependency to your **Package.swift** file:
 
 ### Carthage
 
-No Carthage support yet. I hope to have the time to take care of it soon. 
+Carthage support is offered as a prebuilt binary.
 
-Feel free to open a PR ! 
+Add the following to your **Cartfile**:
+
+```
+github "freak4pc/RxCombine"
+```
 
 ## I want to ...
 
@@ -116,7 +122,7 @@ Observable.of(10, 5, 7, 4, 1,  6)
 ## Future ideas 
 
 * Add CI / Tests
-* Carthage Support
+* ~~Carthage Support~~
 * Bridge SwiftUI with RxCocoa/RxSwift
 * Partial Backpressure support, perhaps?
 * ... your ideas? :)

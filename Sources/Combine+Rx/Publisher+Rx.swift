@@ -17,7 +17,7 @@ public extension Publisher {
     ///
     /// - returns: Observable<Output>
     func asObservable() -> Observable<Output> {
-        return Observable<Output>.create { observer in
+        Observable<Output>.create { observer in
             let cancellable = self.sink(
                 receiveCompletion: { completion in
                     switch completion {

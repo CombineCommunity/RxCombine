@@ -29,7 +29,7 @@ public extension AnyObserverConvertible {
     ///
     /// - returns: AnyObserver<Output>
     func asAnyObserver() -> AnyObserver<Output> {
-        return AnyObserver { [weak self] event in
+        AnyObserver { [weak self] event in
             guard let self = self else { return }
             switch event {
             case .next(let value):
@@ -55,6 +55,6 @@ public extension ObservableType {
      - seealso: `AnyOserverConvertible`
      */
     func bind<S: AnyObserverConvertible>(to subject: S) -> Disposable where S.Output == Element {
-        return subscribe(subject.asAnyObserver())
+        subscribe(subject.asAnyObserver())
     }
 }
