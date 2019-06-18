@@ -96,7 +96,7 @@ private extension Example {
         textView.append(line: "🤐 \(id)")
         textView.append(line: "=====================")
 
-        let cancel = Publishers.Zip(relay1.publisher, relay2.publisher)
+        let subscription = Publishers.Zip(relay1.publisher, relay2.publisher)
             .dropFirst()
             .sink(
                 receiveCompletion: { completion in
@@ -126,7 +126,7 @@ private extension Example {
         _ = p1.asObservable().bind(to: relay1)
         _ = p2.asObservable().bind(to: relay2)
         
-        cancel.cancel()
+        subscription.cancel()
     }
 }
 
