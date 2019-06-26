@@ -14,10 +14,12 @@ public extension ObservableConvertibleType {
     /// so the Observable pushes events to the Publisher.
     var publisher: AnyPublisher<Element, Swift.Error> {
         AnyPublisher<Element, Swift.Error> { subscriber in
+            let disposable = SingleAssignmentDisposable()
             subscriber.receive(
-                subscription: RxSubscription(disposable: self.asObservable()
-                                                             .subscribe(subscriber.pushRxEvent))
+                subscription: RxSubscription(disposable: disposable)
             )
+            disposable.setDisposable(self.asObservable()
+                                         .subscribe(subscriber.pushRxEvent))
         }
     }
     
