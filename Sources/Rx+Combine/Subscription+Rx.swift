@@ -10,7 +10,7 @@ import Combine
 import RxSwift
 
 /// A Combine Subscription wrapping a RxSwift Disposable.
-/// Upon cancellation, the underlying Disposable is diposed of.
+/// Upon cancellation, the underlying Disposable is disposed of.
 class RxSubscription: Subscription {
     private let disposable: Disposable
 

@@ -59,10 +59,7 @@ private extension Example {
     }
 
     func publisherAsObservable(with textView: UITextView) {
-        let publisher = AnyPublisher<Int, Swift.Error> { subscriber in
-            (0...100).forEach { _ = subscriber.receive($0) }
-            subscriber.receive(completion: .finished)
-        }
+        let publisher = PassthroughSubject<Int, Swift.Error>()
 
         let id = "Publisher as Observable"
 
@@ -85,6 +82,9 @@ private extension Example {
                     textView.append(line: "\(id) -> completed")
                 }
             }
+
+        (0...100).forEach { publisher.send($0) }
+        publisher.send(completion: .finished)
     }
 
     func relaysZippedInCombine(with textView: UITextView) {
@@ -113,18 +113,18 @@ private extension Example {
                 }
             )
 
-        let p1 = AnyPublisher<Int, Swift.Error> { subscriber in
-            (0...50).forEach { _ = subscriber.receive($0) }
-            subscriber.receive(completion: .finished)
-        }
-
-        let p2 = AnyPublisher<Int, Swift.Error> { subscriber in
-            (0...50).reversed().forEach { _ = subscriber.receive($0) }
-            subscriber.receive(completion: .finished)
-        }
+        let p1 = PassthroughSubject<Int, Swift.Error>()
+        let p2 = PassthroughSubject<Int, Swift.Error>()
 
         _ = p1.asObservable().bind(to: relay1)
         _ = p2.asObservable().bind(to: relay2)
+
+
+        (0...50).forEach { p1.send($0) }
+        p1.send(completion: .finished)
+
+        (0...50).reversed().forEach { p2.send($0) }
+        p2.send(completion: .finished)
         
         subscription.cancel()
     }
