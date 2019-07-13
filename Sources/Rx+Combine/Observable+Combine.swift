@@ -39,7 +39,7 @@ public class RxPublisher<Upstream: ObservableConvertibleType>: Publisher {
 
     public func receive<S: Subscriber>(subscriber: S) where Failure == S.Failure, Output == S.Input {
         let disposable = SingleAssignmentDisposable()
-        subscriber.receive(subscription: RxSubscription(disposable: upstream.asObservable().subscribe(subscriber.pushRxEvent)))
-        disposable.setDisposable(disposable)
+        subscriber.receive(subscription: RxSubscription(disposable: disposable))
+        disposable.setDisposable(upstream.asObservable().subscribe(subscriber.pushRxEvent))
     }
 }
