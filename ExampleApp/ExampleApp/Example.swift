@@ -15,6 +15,7 @@ enum Example: Int {
     case observableAsPublisher = 101
     case publisherAsObservable
     case relaysZippedInCombine
+    case justAsPublisherUnitTest
 
     func play(with textView: UITextView) {
         textView.text = ""
@@ -27,6 +28,8 @@ enum Example: Int {
             publisherAsObservable(with: textView)
         case .relaysZippedInCombine:
             relaysZippedInCombine(with: textView)
+        case .justAsPublisherUnitTest:
+            justAsPublisherUnitTest(with: textView)
         }
     }
 }
@@ -127,6 +130,42 @@ private extension Example {
         p2.send(completion: .finished)
         
         subscription.cancel()
+    }
+
+    // This code can become a unit test if/when unit tests are properly set up for the project.
+    //
+    // It ensures that the Observable -> Publisher implementation follows the Combine contract
+    // for the Subscriber protocol to send a subscription before sending any actual values.
+    // The code has has been broken and later regressed when dealing with an Observable that sends
+    // a value synchronously during subscription...like .just()
+    //
+    // As currently implemented, Combine doesn't actually verity this invariant in all Subscriber
+    // implementations. The subscriber for the implementation of .filter does, though. That's why
+    // I have that silly .filter there.
+    func justAsPublisherUnitTest(with textView: UITextView) {
+        let id = "Observable.just in Combine"
+
+        textView.append(line: "🤐 \(id)")
+        textView.append(line: "=====================")
+
+        _ = Observable.just("just")
+            .publisher
+            .filter { _ in true }   // As currently implemented, not all Combine subscribers have the assert
+            .sink(
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        textView.append(line: "\(id) -> receive finished")
+                        textView.append(line: "=========================\n")
+                    case .failure(let error):
+                        textView.append(line: "\(id) -> receive failure: \(error)")
+                    }
+                },
+                receiveValue: { value in
+                    textView.append(line: "\(id) -> receive value: \(value)")
+                }
+            )
+
     }
 }
 
