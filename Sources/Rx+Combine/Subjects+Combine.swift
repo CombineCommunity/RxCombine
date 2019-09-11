@@ -11,6 +11,9 @@ import RxSwift
 
 // MARK: - Behavior Subject as Combine Subject
 extension BehaviorSubject: Combine.Subject {
+    public func send(subscription: Subscription) {
+    }
+    
     public func receive<S: Subscriber>(subscriber: S) where BehaviorSubject.Failure == S.Failure,
                                                             BehaviorSubject.Output == S.Input {
         _ = subscribe(subscriber.pushRxEvent)
@@ -35,6 +38,9 @@ extension BehaviorSubject: Combine.Subject {
 
 // MARK: - Publish Subject as Combine Subject
 extension PublishSubject: Combine.Subject {
+    public func send(subscription: Subscription) {
+    }
+    
     public func receive<S: Subscriber>(subscriber: S) where PublishSubject.Failure == S.Failure,
                                                             PublishSubject.Output == S.Input {
         _ = subscribe(subscriber.pushRxEvent)

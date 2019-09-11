@@ -23,6 +23,9 @@ extension BehaviorRelay: Publisher {
 
 // MARK: - Behavior Relay as Combine Subject
 extension BehaviorRelay: Combine.Subject {
+    public func send(subscription: Subscription) {
+    }
+    
     public func send(_ value: Element) {
         accept(value)
     }
@@ -45,6 +48,9 @@ extension PublishRelay: Publisher {
 
 // MARK: - Publish Relay as Combine Subject
 extension PublishRelay: Combine.Subject {
+    public func send(subscription: Subscription) {
+    }
+    
     public func send(_ value: Element) {
         accept(value)
     }
