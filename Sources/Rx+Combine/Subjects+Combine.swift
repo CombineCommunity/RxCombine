@@ -29,6 +29,10 @@ extension BehaviorSubject: Combine.Subject {
         }
     }
 
+    public func send(subscription: Subscription) {
+        /// no-op: Relays don't have anything to do with a Combine subscription
+    }
+
     public typealias Output = Element
     public typealias Failure = Swift.Error
 }
@@ -51,6 +55,10 @@ extension PublishSubject: Combine.Subject {
         case .failure(let error):
             onError(error)
         }
+    }
+
+    public func send(subscription: Subscription) {
+        /// no-op: Relays don't have anything to do with a Combine subscription
     }
 
     public typealias Output = Element

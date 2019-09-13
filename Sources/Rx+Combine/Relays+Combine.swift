@@ -27,6 +27,10 @@ extension BehaviorRelay: Combine.Subject {
         accept(value)
     }
 
+    public func send(subscription: Subscription) {
+        /// no-op: Relays don't have anything to do with a Combine subscription
+    }
+
     public func send(completion: Subscribers.Completion<Never>) {
         /// no-op: Relays don't complete and can't error out
     }
@@ -47,6 +51,10 @@ extension PublishRelay: Publisher {
 extension PublishRelay: Combine.Subject {
     public func send(_ value: Element) {
         accept(value)
+    }
+
+    public func send(subscription: Subscription) {
+        /// no-op: Relays don't have anything to do with a Combine subscription
     }
 
     public func send(completion: Subscribers.Completion<Never>) {
