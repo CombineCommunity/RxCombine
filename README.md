@@ -124,7 +124,7 @@ Observable.of(10, 5, 7, 4, 1,  6)
 * Add CI / Tests
 * ~~Carthage Support~~
 * Bridge SwiftUI with RxCocoa/RxSwift
-* Partial Backpressure support, perhaps?
+* ~~Partial Backpressure support, perhaps?~~
 * ... your ideas? :)
 
 ## License
