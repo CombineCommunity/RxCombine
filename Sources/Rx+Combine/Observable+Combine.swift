@@ -3,7 +3,7 @@
 //  RxCombine
 //
 //  Created by Shai Mishali on 11/06/2019.
-//  Copyright © 2019 Shai Mishali. All rights reserved.
+//  Copyright © 2019 Combine Community. All rights reserved.
 //
 
 import Combine
@@ -31,15 +31,14 @@ public class RxPublisher<Upstream: ObservableConvertibleType>: Publisher {
     public typealias Output = Upstream.Element
     public typealias Failure = Swift.Error
 
-    let upstream: Upstream
+    private let upstream: Upstream
 
     init(upstream: Upstream) {
         self.upstream = upstream
     }
 
     public func receive<S: Subscriber>(subscriber: S) where Failure == S.Failure, Output == S.Input {
-        let disposable = SingleAssignmentDisposable()
-        subscriber.receive(subscription: RxSubscription(disposable: disposable))
-        disposable.setDisposable(upstream.asObservable().subscribe(subscriber.pushRxEvent))
+        subscriber.receive(subscription: RxSubscription(upstream: upstream,
+                                                        downstream: subscriber))
     }
 }

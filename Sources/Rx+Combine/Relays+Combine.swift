@@ -3,7 +3,7 @@
 //  RxCombine
 //
 //  Created by Shai Mishali on 11/06/2019.
-//  Copyright © 2019 Shai Mishali. All rights reserved.
+//  Copyright © 2019 Combine Community. All rights reserved.
 //
 
 import Combine
@@ -17,7 +17,8 @@ extension BehaviorRelay: Publisher {
 
     public func receive<S: Subscriber>(subscriber: S) where BehaviorRelay.Failure == S.Failure,
                                                             BehaviorRelay.Output == S.Input {
-        _ = self.subscribe(subscriber.pushRxEvent)
+        subscriber.receive(subscription: RxInfallibleSubscription(upstream: self,
+                                                                  downstream: subscriber))
     }
 }
 
@@ -43,7 +44,8 @@ extension PublishRelay: Publisher {
 
     public func receive<S: Subscriber>(subscriber: S) where PublishRelay.Failure == S.Failure,
                                                             PublishRelay.Output == S.Input {
-        _ = self.subscribe(subscriber.pushRxEvent)
+        subscriber.receive(subscription: RxInfallibleSubscription(upstream: self,
+                                                                  downstream: subscriber))
     }
 }
 
