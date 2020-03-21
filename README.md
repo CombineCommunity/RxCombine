@@ -3,6 +3,8 @@
 <p align="center">
 <img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/logo.png" width="220">
 <br /><br />
+<a href="https://actions-badge.atrox.dev/CombineCommunity/RxCombine/goto" target="_blank" alt="Build Status" title="Build Status"><img src="https://github.com/CombineCommunity/RxCombine/workflows/RxCombine/badge.svg?branch=master" alt="Build Status" title="Build Status"></a>
+<a href="https://codecov.io/gh/CombineCommunity/RxCombine" target="_blank" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"><img src="https://codecov.io/gh/CombineCommunity/RxCombine/branch/master/graph/badge.svg" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"/></a>
 <a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg?1" alt="RxCombine supports CocoaPods"></a>
 <a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg" alt="RxCombine supports Swift Package Manager (SPM)"></a>
 <a href="https://github.com/Carthage/Carthage" target="_blank"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="RxCombine supports Carthage"></a>
@@ -121,7 +123,7 @@ Observable.of(10, 5, 7, 4, 1,  6)
 
 ## Future ideas 
 
-* Add CI / Tests
+* ~~Add CI / Tests~~
 * ~~Carthage Support~~
 * Bridge SwiftUI with RxCocoa/RxSwift
 * ~~Partial Backpressure support, perhaps?~~
