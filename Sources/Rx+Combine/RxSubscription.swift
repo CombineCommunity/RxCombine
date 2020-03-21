@@ -63,7 +63,7 @@ class RxInfallibleSubscription<Upstream: ObservableConvertibleType, Downstream: 
         case .next(let element):
             _ = buffer.buffer(value: element)
         case .error(let error):
-            preconditionFailure("Your downstream cannot accept errors, as it has a Never failure (Got \(error))")
+            preconditionFailure("Your downstream cannot accept errors, as it has a `Never` failure (Got \(error))")
         case .completed:
             buffer.complete(completion: .finished)
         }

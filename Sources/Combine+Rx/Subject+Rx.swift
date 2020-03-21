@@ -18,7 +18,7 @@ import RxRelay
 public protocol AnyObserverConvertible: Combine.Subject where Failure == Swift.Error {
     associatedtype Output
 
-    /// Returns a RxSwift AnyObserver wrapping the Subject
+    /// Returns a RxSwift `AnyObserver` wrapping the Subject
     ///
     /// - returns: AnyObserver<Output>
     func asAnyObserver() -> AnyObserver<Output>
@@ -46,7 +46,7 @@ public extension AnyObserverConvertible {
 extension PassthroughSubject: AnyObserverConvertible where Failure == Swift.Error {}
 extension CurrentValueSubject: AnyObserverConvertible where Failure == Swift.Error {}
 
-public extension ObservableType {
+public extension ObservableConvertibleType {
     /**
      Creates new subscription and sends elements to a Combine Subject.
 
@@ -55,6 +55,6 @@ public extension ObservableType {
      - seealso: `AnyOserverConvertible`
      */
     func bind<S: AnyObserverConvertible>(to subject: S) -> Disposable where S.Output == Element {
-        subscribe(subject.asAnyObserver())
+        asObservable().subscribe(subject.asAnyObserver())
     }
 }
