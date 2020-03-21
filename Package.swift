@@ -19,6 +19,11 @@ let package = Package(
         .target(
             name: "RxCombine",
             dependencies: ["RxSwift", "RxRelay"],
-            path: "Sources")
+            path: "Sources"),
+        .testTarget(
+            name: "RxCombineTests",
+            dependencies: ["RxCombine"],
+            path: "Tests"
+        )
     ]
 )

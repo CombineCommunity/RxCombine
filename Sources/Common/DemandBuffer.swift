@@ -124,22 +124,3 @@ private extension DemandBuffer {
         var sent: Subscribers.Demand = .none
     }
 }
-
-// MARK: - Internally-scoped helpers
-extension Subscription {
-    /// Reqeust demand if it's not empty
-    ///
-    /// - parameter demand: Requested demand
-    func requestIfNeeded(_ demand: Subscribers.Demand) {
-        guard demand > .none else { return }
-        request(demand)
-    }
-}
-
-extension Optional where Wrapped == Subscription {
-    /// Cancel the Optional subscription and nullify it
-    mutating func kill() {
-        self?.cancel()
-        self = nil
-    }
-}
