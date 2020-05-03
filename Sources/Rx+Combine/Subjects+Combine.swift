@@ -10,6 +10,7 @@ import Combine
 import RxSwift
 
 // MARK: - Behavior Subject as Combine Subject
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BehaviorSubject: Combine.Subject {
     public func receive<S: Subscriber>(subscriber: S) where BehaviorSubject.Failure == S.Failure,
                                                             BehaviorSubject.Output == S.Input {
@@ -39,6 +40,7 @@ extension BehaviorSubject: Combine.Subject {
 }
 
 // MARK: - Publish Subject as Combine Subject
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PublishSubject: Combine.Subject {
     public func receive<S: Subscriber>(subscriber: S) where PublishSubject.Failure == S.Failure,
                                                             PublishSubject.Output == S.Input {

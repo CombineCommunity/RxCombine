@@ -11,6 +11,7 @@ import RxSwift
 import RxRelay
 
 // MARK: - Behavior Relay as Publisher
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BehaviorRelay: Publisher {
     public typealias Output = Element
     public typealias Failure = Never
@@ -23,6 +24,7 @@ extension BehaviorRelay: Publisher {
 }
 
 // MARK: - Behavior Relay as Combine Subject
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BehaviorRelay: Combine.Subject {
     public func send(_ value: Element) {
         accept(value)
@@ -38,6 +40,7 @@ extension BehaviorRelay: Combine.Subject {
 }
 
 // MARK:  - Publish Relay as Publisher
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PublishRelay: Publisher {
     public typealias Output = Element
     public typealias Failure = Never
@@ -50,6 +53,7 @@ extension PublishRelay: Publisher {
 }
 
 // MARK: - Publish Relay as Combine Subject
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PublishRelay: Combine.Subject {
     public func send(_ value: Element) {
         accept(value)
