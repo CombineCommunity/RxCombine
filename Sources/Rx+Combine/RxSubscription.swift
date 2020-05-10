@@ -6,6 +6,7 @@
 //  Copyright © 2020 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine)
 import Combine
 import RxSwift
 
@@ -88,3 +89,4 @@ extension RxInfallibleSubscription: CustomStringConvertible {
         return "RxInfallibleSubscription<\(Upstream.self)>"
     }
 }
+#endif

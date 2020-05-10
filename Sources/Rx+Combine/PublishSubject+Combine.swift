@@ -6,6 +6,7 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine)
 import Combine
 import RxSwift
 
@@ -55,3 +56,4 @@ public extension PublishSubject {
         RxPassthroughSubject(rxSubject: self)
     }
 }
+#endif

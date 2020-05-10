@@ -5,6 +5,7 @@
 //  Created by Shai Mishali on 21/03/2020.
 //
 
+#if !os(watchOS)
 import XCTest
 import RxCombine
 import RxSwift
@@ -166,4 +167,4 @@ class RxRelaysToCombineTests: XCTestCase {
         XCTAssertEqual(values, [1, 2, 3, 4])
     }
 }
-
+#endif

@@ -5,6 +5,7 @@
 //  Created by Shai Mishali on 21/03/2020.
 //
 
+#if !os(watchOS)
 import XCTest
 import RxCombine
 import RxSwift
@@ -77,3 +78,4 @@ extension RxSwift.Event: Equatable where Element: Equatable {
         }
     }
 }
+#endif

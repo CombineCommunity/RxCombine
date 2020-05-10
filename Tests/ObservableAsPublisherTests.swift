@@ -6,6 +6,7 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if !os(watchOS)
 import XCTest
 import RxCombine
 import RxSwift
@@ -90,3 +91,4 @@ class ObservableAsPublisherTests: XCTestCase {
 enum FakeError: Swift.Error {
     case ohNo
 }
+#endif

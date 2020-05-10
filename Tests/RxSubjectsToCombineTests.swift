@@ -6,6 +6,7 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if !os(watchOS)
 import XCTest
 import RxCombine
 import RxSwift
@@ -400,3 +401,4 @@ class RxBehaviorSubjectToCombineTests: XCTestCase {
         }
     }
 }
+#endif

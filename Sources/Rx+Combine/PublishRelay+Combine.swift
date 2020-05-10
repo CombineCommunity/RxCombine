@@ -5,6 +5,7 @@
 //  Created by Shai Mishali on 10/05/2020.
 //
 
+#if canImport(Combine)
 import Combine
 import RxSwift
 import RxRelay
@@ -50,4 +51,4 @@ public extension PublishRelay {
         RxPassthroughRelay(rxRelay: self)
     }
 }
-
+#endif

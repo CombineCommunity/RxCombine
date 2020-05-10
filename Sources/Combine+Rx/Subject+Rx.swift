@@ -6,6 +6,7 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine)
 import Combine
 import RxSwift
 import RxRelay
@@ -60,3 +61,4 @@ public extension ObservableConvertibleType {
         asObservable().subscribe(subject.asAnyObserver())
     }
 }
+#endif

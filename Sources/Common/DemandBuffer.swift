@@ -6,6 +6,7 @@
 //  Copyright © 2020 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine)
 import Combine
 import class Foundation.NSRecursiveLock
 
@@ -126,3 +127,4 @@ private extension DemandBuffer {
         var sent: Subscribers.Demand = .none
     }
 }
+#endif
