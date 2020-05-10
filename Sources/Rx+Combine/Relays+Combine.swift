@@ -11,55 +11,39 @@ import RxSwift
 import RxRelay
 
 // MARK: - Behavior Relay as Publisher
-extension BehaviorRelay: Publisher {
-    public typealias Output = Element
-    public typealias Failure = Never
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension BehaviorRelay {
+    /// An `AnyPublisher` of the underlying Relay's Element type
+    /// so the relay pushes events to the Publisher.
+    var publisher: AnyPublisher<Element, Never> {
+        RxPublisher(upstream: self).assertNoFailure().eraseToAnyPublisher()
+    }
 
-    public func receive<S: Subscriber>(subscriber: S) where BehaviorRelay.Failure == S.Failure,
-                                                            BehaviorRelay.Output == S.Input {
-        subscriber.receive(subscription: RxInfallibleSubscription(upstream: self,
-                                                                  downstream: subscriber))
+    /// An `AnyPublisher` of the underlying Relay's Element type
+    /// so the relay pushes events to the Publisher.
+    ///
+    /// - returns: AnyPublisher of the underlying Relay's Element type.
+    /// - note: This is an alias for the `publisher` property.
+    func asPublisher() -> AnyPublisher<Element, Never> {
+        publisher
     }
 }
 
-// MARK: - Behavior Relay as Combine Subject
-extension BehaviorRelay: Combine.Subject {
-    public func send(_ value: Element) {
-        accept(value)
+// MARK: - Publish Relay as Publisher
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension PublishRelay {
+    /// An `AnyPublisher` of the underlying Relay's Element type
+    /// so the relay pushes events to the Publisher.
+    var publisher: AnyPublisher<Element, Never> {
+        RxPublisher(upstream: self).assertNoFailure().eraseToAnyPublisher()
     }
 
-    public func send(subscription: Subscription) {
-        /// no-op: Relays don't have anything to do with a Combine subscription
-    }
-
-    public func send(completion: Subscribers.Completion<Never>) {
-        /// no-op: Relays don't complete and can't error out
-    }
-}
-
-// MARK:  - Publish Relay as Publisher
-extension PublishRelay: Publisher {
-    public typealias Output = Element
-    public typealias Failure = Never
-
-    public func receive<S: Subscriber>(subscriber: S) where PublishRelay.Failure == S.Failure,
-                                                            PublishRelay.Output == S.Input {
-        subscriber.receive(subscription: RxInfallibleSubscription(upstream: self,
-                                                                  downstream: subscriber))
-    }
-}
-
-// MARK: - Publish Relay as Combine Subject
-extension PublishRelay: Combine.Subject {
-    public func send(_ value: Element) {
-        accept(value)
-    }
-
-    public func send(subscription: Subscription) {
-        /// no-op: Relays don't have anything to do with a Combine subscription
-    }
-
-    public func send(completion: Subscribers.Completion<Never>) {
-        /// no-op: Relays don't complete and can't error out
+    /// An `AnyPublisher` of the underlying Relay's Element type
+    /// so the relay pushes events to the Publisher.
+    ///
+    /// - returns: AnyPublisher of the underlying Relay's Element type.
+    /// - note: This is an alias for the `publisher` property.
+    func asPublisher() -> AnyPublisher<Element, Never> {
+        publisher
     }
 }

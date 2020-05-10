@@ -1,4 +1,4 @@
-# RxCombine
+subject# RxCombine
 
 <p align="center">
 <img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/logo.png" width="220">
@@ -69,19 +69,20 @@ observable
     .sink(receiveValue: { value in ... })
 ```
 
-* `Relays` and `Subjects` conform to `Combine.Subject`, so you can use them as if they are regular Combine Subjects.
+* `Relays` and `Subjects` can be converted to their Combine-counterparts using the `toCombine()` method, so you can use them as if they are regular Combine Subjects, and have them connected to your existing subjects.
 
 ```swift
 let relay = BehaviorRelay<Int>(value: 0)
 
 // Use `sink` on RxSwift relay
-relay
-    .sink(receiveValue: { value in ... })
+let combineSubject = relay.toCombine()
+
+combineSubject.sink(receiveValue: { value in ... })
 
 // Use `send(value:)` on RxSwift relay
-relay.send(1)
-relay.send(2)
-relay.send(3)
+combineSubject.send(1)
+combineSubject.send(2)
+combineSubject.send(3)
 ```
 
 ### Use Combine in my RxSwift code

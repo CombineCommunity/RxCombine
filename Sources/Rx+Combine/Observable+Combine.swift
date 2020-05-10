@@ -9,6 +9,7 @@
 import Combine
 import RxSwift
 
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public extension ObservableConvertibleType {
     /// An `AnyPublisher` of the underlying Observable's Element type
     /// so the Observable pushes events to the Publisher.
@@ -27,6 +28,7 @@ public extension ObservableConvertibleType {
 }
 
 /// A Publisher pushing RxSwift events to a Downstream Combine subscriber.
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public class RxPublisher<Upstream: ObservableConvertibleType>: Publisher {
     public typealias Output = Upstream.Element
     public typealias Failure = Swift.Error

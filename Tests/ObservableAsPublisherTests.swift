@@ -11,6 +11,7 @@ import RxCombine
 import RxSwift
 import Combine
 
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class ObservableAsPublisherTests: XCTestCase {
     private var subscription: AnyCancellable!
 
