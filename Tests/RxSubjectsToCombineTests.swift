@@ -1,5 +1,5 @@
 //
-//  RxSubjectsToCombineTests.swift
+//  RxBehaviorSubjectToCombineTests.swift
 //  RxCombineTests
 //
 //  Created by Shai Mishali on 21/03/2020.
@@ -11,7 +11,8 @@ import RxCombine
 import RxSwift
 import Combine
 
-class RxSubjectsToCombineTests: XCTestCase {
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+class RxBehaviorSubjectToCombineTests: XCTestCase {
     private var subscriptions = Set<AnyCancellable>()
     private var disposeBag = DisposeBag()
 
@@ -20,12 +21,60 @@ class RxSubjectsToCombineTests: XCTestCase {
         disposeBag = DisposeBag()
     }
 
+    func testBehaviorSubjectRxCombineInterop() {
+        var rxValues = [Int]()
+        var combValues = [Int]()
+
+        var rxCompletion: RxSwift.Event<Int>?
+        var combCompletion = false
+
+        let rx = BehaviorSubject(value: 1)
+        let combine = rx
+            .toCombine()
+
+        combine
+            .map { $0 * $0 }
+            .sink(receiveCompletion: { _ in combCompletion = true },
+                  receiveValue: { combValues.append($0) })
+            .store(in: &subscriptions)
+
+        rx
+        .map { $0 * $0 }
+        .subscribe(onNext: { rxValues.append($0) },
+                   onError: { rxCompletion = .error($0) },
+                   onCompleted: { rxCompletion = .completed })
+        .disposed(by: disposeBag)
+
+        combine.send(10)
+        combine.send(7)
+        rx.onNext(2)
+        rx.onNext(5)
+        combine.send(11)
+        combine.value = 60
+
+        XCTAssertNil(rxCompletion)
+        XCTAssertFalse(combCompletion)
+
+        combine.send(completion: .finished)
+        XCTAssertEqual(rxCompletion, .completed)
+        XCTAssertTrue(combCompletion)
+
+        /// These should do nothing since observable was
+        /// already terminated by error
+        rx.onNext(4)
+        rx.onNext(4)
+        rx.onNext(4)
+        
+        XCTAssertEqual(combValues, [1, 100, 49, 4, 25, 121, 3600])
+        XCTAssertEqual(combValues, rxValues)
+    }
+
     // MARK: - Behavior Subject
     func testBehaviorSubjectInitialReplay() {
         var completion: Subscribers.Completion<Swift.Error>?
         var values = [Int]()
 
-        let subject = BehaviorSubject(value: 1)
+        let subject = BehaviorSubject(value: 1).toCombine()
 
         subject
             .sink(receiveCompletion: { completion = $0 },
@@ -42,25 +91,25 @@ class RxSubjectsToCombineTests: XCTestCase {
         var values = [Int]()
         var values2 = [Int]()
 
-        let subject = BehaviorSubject(value: 1)
+        let rx = BehaviorSubject(value: 1)
+        let comb = rx.toCombine()
 
-        subject
+        comb
             .sink(receiveCompletion: { completion = $0 },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
-        subject.send(2)
-        subject.onNext(3)
+        comb.send(2)
+        rx.onNext(3)
 
+        rx
+            .subscribe(onNext: { values2.append($0) },
+                       onCompleted: { completion2 = .finished })
+            .disposed(by: disposeBag)
 
-        subject
-            .sink(receiveCompletion: { completion2 = $0 },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
-
-        subject.onNext(4)
-        subject.onNext(5)
-        subject.send(6)
+        rx.onNext(4)
+        rx.onNext(5)
+        comb.send(6)
 
         XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
         XCTAssertEqual(values2, [3, 4, 5, 6])
@@ -68,7 +117,7 @@ class RxSubjectsToCombineTests: XCTestCase {
         XCTAssertNil(completion)
         XCTAssertNil(completion2)
 
-        subject.send(completion: .finished)
+        rx.onCompleted()
         XCTAssertNotNil(completion)
         XCTAssertNotNil(completion2)
     }
@@ -79,29 +128,31 @@ class RxSubjectsToCombineTests: XCTestCase {
         var values = [Int]()
         var values2 = [Int]()
 
-        let subject = BehaviorSubject(value: 1)
+        let rx = BehaviorSubject(value: 1)
+        let comb = rx.toCombine()
 
-        subject
+        comb
             .sink(receiveCompletion: { completion = $0 },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
-        subject.send(2)
-        subject.onNext(3)
+        comb.send(2)
+        rx.onNext(3)
 
-        subject
-            .sink(receiveCompletion: { completion2 = $0 },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
+        rx
+        .subscribe(onNext: { values2.append($0) },
+                   onError: { completion2 = .failure($0) },
+                   onCompleted: { completion2 = .finished })
+        .disposed(by: disposeBag)
 
-        subject.onNext(4)
-        subject.onNext(5)
-        subject.send(6)
+        rx.onNext(4)
+        rx.onNext(5)
+        comb.send(6)
 
         XCTAssertNil(completion)
         XCTAssertNil(completion2)
 
-        subject.send(completion: .failure(FakeError.ohNo))
+        comb.send(completion: .failure(FakeError.ohNo))
 
         guard case .failure(FakeError.ohNo) = completion else {
             XCTFail("Expected \(FakeError.ohNo), got \(String(describing: completion))")
@@ -115,9 +166,9 @@ class RxSubjectsToCombineTests: XCTestCase {
 
         /// These should do nothing since observable was
         /// already terminated by error
-        subject.onNext(4)
-        subject.onNext(4)
-        subject.onNext(4)
+        rx.onNext(4)
+        rx.onNext(4)
+        comb.send(4)
 
         XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
         XCTAssertEqual(values2, [3, 4, 5, 6])
@@ -154,39 +205,85 @@ class RxSubjectsToCombineTests: XCTestCase {
     }
 
     // MARK: - Publish Relay
+    func testPublishSubjectRxCombineInterop() {
+        var rxValues = [Int]()
+        var combValues = [Int]()
+
+        var rxCompletion: RxSwift.Event<Int>?
+        var combCompletion = false
+
+        let rx = PublishSubject<Int>()
+        let combine = rx.toCombine()
+
+        combine
+            .map { $0 * $0 }
+            .sink(receiveCompletion: { _ in combCompletion = true },
+                  receiveValue: { combValues.append($0) })
+            .store(in: &subscriptions)
+
+        rx
+        .map { $0 * $0 }
+        .subscribe(onNext: { rxValues.append($0) },
+                   onError: { rxCompletion = .error($0) },
+                   onCompleted: { rxCompletion = .completed })
+        .disposed(by: disposeBag)
+
+        combine.send(10)
+        combine.send(7)
+        rx.onNext(2)
+        rx.onNext(5)
+        combine.send(11)
+
+        XCTAssertNil(rxCompletion)
+        XCTAssertFalse(combCompletion)
+
+        combine.send(completion: .finished)
+        XCTAssertEqual(rxCompletion, .completed)
+        XCTAssertTrue(combCompletion)
+
+        /// These should do nothing since observable was
+        /// already terminated by error
+        rx.onNext(4)
+        rx.onNext(4)
+        rx.onNext(4)
+
+        XCTAssertEqual(combValues, [100, 49, 4, 25, 121])
+        XCTAssertEqual(combValues, rxValues)
+    }
+
     func testPublishSubjectsCompleted() {
         var completion: Subscribers.Completion<Swift.Error>?
         var completion2: Subscribers.Completion<Swift.Error>?
         var values = [Int]()
         var values2 = [Int]()
 
-        let subject = PublishSubject<Int>()
+        let rx = PublishSubject<Int>()
+        let comb = rx.toCombine()
 
-        subject
+        comb
             .sink(receiveCompletion: { completion = $0 },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
-        subject.send(1)
-        subject.send(2)
-        subject.onNext(3)
+        comb.send(2)
+        rx.onNext(3)
 
-        subject
-            .sink(receiveCompletion: { completion2 = $0 },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
+        rx
+            .subscribe(onNext: { values2.append($0) },
+                       onCompleted: { completion2 = .finished })
+            .disposed(by: disposeBag)
 
-        subject.onNext(4)
-        subject.onNext(5)
-        subject.send(6)
+        rx.onNext(4)
+        rx.onNext(5)
+        comb.send(6)
 
-        XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
+        XCTAssertEqual(values, [2, 3, 4, 5, 6])
         XCTAssertEqual(values2, [4, 5, 6])
 
         XCTAssertNil(completion)
         XCTAssertNil(completion2)
 
-        subject.send(completion: .finished)
+        rx.onCompleted()
         XCTAssertNotNil(completion)
         XCTAssertNotNil(completion2)
     }
@@ -197,30 +294,31 @@ class RxSubjectsToCombineTests: XCTestCase {
         var values = [Int]()
         var values2 = [Int]()
 
-        let subject = PublishSubject<Int>()
+        let rx = PublishSubject<Int>()
+        let comb = rx.toCombine()
 
-        subject
+        comb
             .sink(receiveCompletion: { completion = $0 },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
-        subject.send(1)
-        subject.send(2)
-        subject.onNext(3)
+        comb.send(2)
+        rx.onNext(3)
 
-        subject
-            .sink(receiveCompletion: { completion2 = $0 },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
+        rx
+        .subscribe(onNext: { values2.append($0) },
+                   onError: { completion2 = .failure($0) },
+                   onCompleted: { completion2 = .finished })
+        .disposed(by: disposeBag)
 
-        subject.onNext(4)
-        subject.onNext(5)
-        subject.send(6)
+        rx.onNext(4)
+        rx.onNext(5)
+        comb.send(6)
 
         XCTAssertNil(completion)
         XCTAssertNil(completion2)
 
-        subject.send(completion: .failure(FakeError.ohNo))
+        comb.send(completion: .failure(FakeError.ohNo))
 
         guard case .failure(FakeError.ohNo) = completion else {
             XCTFail("Expected \(FakeError.ohNo), got \(String(describing: completion))")
@@ -234,11 +332,11 @@ class RxSubjectsToCombineTests: XCTestCase {
 
         /// These should do nothing since observable was
         /// already terminated by error
-        subject.onNext(4)
-        subject.onNext(4)
-        subject.onNext(4)
+        rx.onNext(4)
+        rx.onNext(4)
+        comb.send(4)
 
-        XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
+        XCTAssertEqual(values, [2, 3, 4, 5, 6])
         XCTAssertEqual(values2, [4, 5, 6])
     }
 

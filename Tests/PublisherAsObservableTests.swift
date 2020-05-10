@@ -10,6 +10,7 @@ import RxCombine
 import RxSwift
 import Combine
 
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class PublisherAsObservableTests: XCTestCase {
     private var disposeBag = DisposeBag()
 
@@ -61,6 +62,7 @@ class PublisherAsObservableTests: XCTestCase {
         XCTAssertEqual(events, (1...14).map { .next($0) } + [.error(FakeError.ohNo)])
     }
 }
+
 
 extension RxSwift.Event: Equatable where Element: Equatable {
     public static func == (lhs: Event<Element>, rhs: Event<Element>) -> Bool {

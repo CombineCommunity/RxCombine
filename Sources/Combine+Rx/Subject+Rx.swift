@@ -43,7 +43,9 @@ public extension AnyObserverConvertible {
     }
 }
 
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PassthroughSubject: AnyObserverConvertible where Failure == Swift.Error {}
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CurrentValueSubject: AnyObserverConvertible where Failure == Swift.Error {}
 
 public extension ObservableConvertibleType {

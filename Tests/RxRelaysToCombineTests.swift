@@ -11,6 +11,7 @@ import RxSwift
 import RxRelay
 import Combine
 
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class RxRelaysToCombineTests: XCTestCase {
     private var subscriptions = Set<AnyCancellable>()
     private var disposeBag = DisposeBag()
@@ -25,7 +26,7 @@ class RxRelaysToCombineTests: XCTestCase {
         var completed = false
         var values = [Int]()
 
-        let relay = BehaviorRelay(value: 1)
+        let relay = BehaviorRelay(value: 1).toCombine()
 
         relay
             .sink(receiveCompletion: { _ in completed = true },
@@ -43,22 +44,23 @@ class RxRelaysToCombineTests: XCTestCase {
         var values2 = [Int]()
 
         let relay = BehaviorRelay(value: 1)
+        let comb = relay.toCombine()
 
-        relay
+        comb
             .sink(receiveCompletion: { _ in completed = true },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
-        relay.send(2)
+        comb.send(2)
         relay.accept(3)
 
         relay
-            .sink(receiveCompletion: { _ in completed2 = true },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
+            .subscribe(onNext: { values2.append($0) },
+                       onCompleted: { completed2 = true })
+            .disposed(by: disposeBag)
 
         relay.accept(4)
-        relay.send(5)
+        comb.send(5)
         relay.accept(6)
 
         XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
@@ -68,7 +70,7 @@ class RxRelaysToCombineTests: XCTestCase {
         XCTAssertFalse(completed2)
 
         /// These should still emit as relays don't complete
-        relay.send(4)
+        comb.send(4)
         relay.accept(4)
         relay.accept(4)
 
@@ -91,10 +93,12 @@ class RxRelaysToCombineTests: XCTestCase {
             .bind(to: combineSubject)
             .disposed(by: disposeBag)
 
-        source.send(1)
+        let comb = source.toCombine()
+
+        comb.send(1)
         source.accept(2)
         source.accept(3)
-        source.send(4)
+        comb.send(4)
 
         XCTAssertFalse(completed)
 
@@ -109,23 +113,24 @@ class RxRelaysToCombineTests: XCTestCase {
         var values2 = [Int]()
 
         let relay = PublishRelay<Int>()
+        let comb = relay.toCombine()
 
-        relay
+        comb
             .sink(receiveCompletion: { _ in completed = true },
                   receiveValue: { values.append($0) })
             .store(in: &subscriptions)
 
         relay.accept(1)
         relay.accept(2)
-        relay.send(3)
+        comb.send(3)
 
         relay
-            .sink(receiveCompletion: { _ in completed2 = true },
-                  receiveValue: { values2.append($0) })
-            .store(in: &subscriptions)
+            .subscribe(onNext: { values2.append($0) },
+                       onCompleted: { completed2 = true })
+            .disposed(by: disposeBag)
 
         relay.accept(4)
-        relay.send(5)
+        comb.send(5)
         relay.accept(6)
 
         XCTAssertEqual(values, [1, 2, 3, 4, 5, 6])
@@ -150,9 +155,11 @@ class RxRelaysToCombineTests: XCTestCase {
             .bind(to: combineSubject)
             .disposed(by: disposeBag)
 
+        let comb = source.toCombine()
+
         source.accept(1)
         source.accept(2)
-        source.send(3)
+        comb.send(3)
         source.accept(4)
 
         XCTAssertFalse(completed)
