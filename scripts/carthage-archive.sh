@@ -17,6 +17,12 @@ fi
 
 REQUIRED_SWIFT_TOOLING="5.1.0"
 TOOLS_VERSION=`swift package tools-version`
+XCODE_XCCONFIG_FILE=$(pwd)/Carthage.xcconfig
+
+if [ ! -f ${XCODE_XCCONFIG_FILE} ]; then
+    echo 'Carthage.xcconfig does not exist'
+    exit 1 
+fi
 
 if [ ! "$(printf '%s\n' "$REQUIRED_SWIFT_TOOLING" "$TOOLS_VERSION" | sort -V | head -n1)" = "$REQUIRED_SWIFT_TOOLING" ]; then
     echo 'You must have Swift Package Manager 5.1.0 or later.'
@@ -24,9 +30,9 @@ if [ ! "$(printf '%s\n' "$REQUIRED_SWIFT_TOOLING" "$TOOLS_VERSION" | sort -V | h
 fi
 
 swift package generate-xcodeproj
-echo "Fixing bundle identifier and bundle version in generated xcodeproj..."
-ruby Helpers/fix_project.rb RxCombine.xcodeproj
+export XCODE_XCCONFIG_FILE
 carthage build --no-skip-current
 carthage archive
+unset XCODE_XCCONFIG_FILE
 
 echo "Upload RxCombine.framework.zip to the latest release"
