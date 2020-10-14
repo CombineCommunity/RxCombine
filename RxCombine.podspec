@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "RxCombine"
-    s.version          = "1.6.0"
+    s.version          = "1.6.1"
     s.summary          = "RxSwift is a Swift implementation of Reactive Extensions"
     s.description      = <<-DESC
   Bi-directional type conversions between RxSwift and Apple's Combine framework.
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   
     s.requires_arc     = true
   
-    s.ios.deployment_target     = '8.0'
+    s.ios.deployment_target     = '9.0'
     s.osx.deployment_target     = '10.9'
     s.watchos.deployment_target = '3.0'
     s.tvos.deployment_target    = '9.0'
