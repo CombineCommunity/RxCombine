@@ -1,10 +1,10 @@
 subject# RxCombine
 
 <p align="center">
-<img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/logo.png" width="220">
+<img src="https://github.com/freak4pc/RxCombine/raw/main/Resources/logo.png" width="220">
 <br /><br />
-<a href="https://actions-badge.atrox.dev/CombineCommunity/RxCombine/goto" target="_blank" alt="Build Status" title="Build Status"><img src="https://github.com/CombineCommunity/RxCombine/workflows/RxCombine/badge.svg?branch=master" alt="Build Status" title="Build Status"></a>
-<a href="https://codecov.io/gh/CombineCommunity/RxCombine" target="_blank" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"><img src="https://codecov.io/gh/CombineCommunity/RxCombine/branch/master/graph/badge.svg" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"/></a>
+<a href="https://actions-badge.atrox.dev/CombineCommunity/RxCombine/goto" target="_blank" alt="Build Status" title="Build Status"><img src="https://github.com/CombineCommunity/RxCombine/workflows/RxCombine/badge.svg?branch=main" alt="Build Status" title="Build Status"></a>
+<a href="https://codecov.io/gh/CombineCommunity/RxCombine" target="_blank" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"><img src="https://codecov.io/gh/CombineCommunity/RxCombine/branch/main/graph/badge.svg" alt="Code Coverage for RxCombine on codecov" title="Code Coverage for RxCombine on codecov"/></a>
 <br />
 <a href="https://cocoapods.org/pods/RxCombine" target="_blank"><img src="https://img.shields.io/cocoapods/v/RxCombine.svg?1" alt="RxCombine supports CocoaPods"></a>
 <a href="https://github.com/apple/swift-package-manager" target="_blank"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg" alt="RxCombine supports Swift Package Manager (SPM)"></a>
@@ -21,7 +21,7 @@ RxCombine provides bi-directional type bridging between [RxSwift](https://github
 
 Check out the Example App in the **ExampleApp** folder. Run `pod install` before opening the project.
 
-<p align="center"><img src="https://github.com/freak4pc/RxCombine/raw/master/Resources/example.gif" width="400"></p>
+<p align="center"><img src="https://github.com/freak4pc/RxCombine/raw/main/Resources/example.gif" width="400"></p>
 
 ## Installation
 
