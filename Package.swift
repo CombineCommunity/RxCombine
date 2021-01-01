@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "RxCombine",
     platforms: [
-        .macOS(.v10_10), .iOS(.v8), .tvOS(.v9), .watchOS(.v3)
+        .macOS(.v10_10), .iOS(.v9), .tvOS(.v9), .watchOS(.v3)
     ],
     products: [
         .library(
@@ -13,7 +13,7 @@ let package = Package(
             targets: ["RxCombine"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0")
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.0.0")
     ],
     targets: [
         .target(

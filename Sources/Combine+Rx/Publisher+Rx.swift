@@ -37,4 +37,27 @@ public extension Publisher {
         }
     }
 }
+
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+public extension Publisher where Failure == Never {
+    /// Returns an Observable<Output> representing the underlying
+    /// Publisher. Upon subscription, the Publisher's sink pushes
+    /// events into the Observable. Upon disposing of the subscription,
+    /// the sink is cancelled.
+    ///
+    /// - returns: Observable<Output>
+    func asInfallible() -> Infallible<Output> {
+        Infallible<Output>.create { observer in
+            let cancellable = self.sink(
+                receiveCompletion: { completion in
+                    observer(.completed)
+                },
+                receiveValue: { value in
+                    observer(.next(value))
+                })
+            
+            return Disposables.create { cancellable.cancel() }
+        }
+    }
+}
 #endif
