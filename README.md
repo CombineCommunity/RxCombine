@@ -1,4 +1,4 @@
-subject# RxCombine
+# RxCombine
 
 <p align="center">
 <img src="https://github.com/freak4pc/RxCombine/raw/main/Resources/logo.png" width="220">
