@@ -38,7 +38,7 @@ pod 'RxCombine'
 Add the following dependency to your **Package.swift** file:
 
 ```swift
-.package(url: "https://github.com/CombineCommunity/RxCombine.git", from: "1.6.0")
+.package(url: "https://github.com/CombineCommunity/RxCombine.git", from: "2.0.0")
 ```
 
 ### Carthage
