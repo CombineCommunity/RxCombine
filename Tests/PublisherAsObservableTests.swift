@@ -45,6 +45,28 @@ class PublisherAsObservableTests: XCTestCase {
         XCTAssertEqual(events, input.map { .next($0) } + [.completed])
     }
 
+    func testStringPublisherAsSingle() {
+        let input = "Hello world I'm a RxSwift Observable".components(separatedBy: " ")
+        let source = input.publisher
+        var value: String?
+        var error: Error?
+
+        source
+            .asSingle()
+            .subscribe {
+                switch $0 {
+                case let .success(val):
+                    value = val
+                case let .failure(err):
+                    error = err
+                }
+            }
+            .disposed(by: disposeBag)
+
+        XCTAssertEqual(value, input[0])
+        XCTAssertNil(error)
+    }
+
     func testFailingPublisher() {
         let source = (1...100).publisher
         var events = [RxSwift.Event<Int>]()
@@ -61,6 +83,33 @@ class PublisherAsObservableTests: XCTestCase {
 
 
         XCTAssertEqual(events, (1...14).map { .next($0) } + [.error(FakeError.ohNo)])
+    }
+
+    func testFailingPublisherAsSingle() {
+        let source = (1...100).publisher
+        var value: Int?
+        var error: Error?
+
+        source
+            .setFailureType(to: FakeError.self)
+            .tryMap { val -> Int in
+                guard val < 1 else { throw FakeError.ohNo }
+                return val
+            }
+            .asSingle()
+            .subscribe {
+                switch $0 {
+                case let .success(val):
+                    value = val
+                case let .failure(err):
+                    error = err
+                }
+            }
+            .disposed(by: disposeBag)
+
+
+        XCTAssertNil(value)
+        XCTAssertNotNil(error)
     }
 }
 

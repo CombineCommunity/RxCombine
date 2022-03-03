@@ -60,4 +60,32 @@ public extension Publisher where Failure == Never {
         }
     }
 }
+
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+public extension Publisher {
+    /// Returns an Single<Output> representing the underlying
+    /// Publisher. Upon subscription, the Publisher's sink pushes
+    /// events into the Single. Upon disposing of the subscription,
+    /// the sink is cancelled.
+    ///
+    /// - returns: Single<Output>
+    func asSingle() -> Single<Output> {
+        Single<Output>.create { single in
+            let cancellable = self.sink(
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        single(.failure(error))
+                    }
+                },
+                receiveValue: { value in
+                    single(.success(value))
+                })
+
+            return Disposables.create { cancellable.cancel() }
+        }
+    }
+}
 #endif
