@@ -9,7 +9,12 @@
 import XCTest
 import RxCombine
 import RxSwift
+
+#if canImport(Combine)
 import Combine
+#else
+import CombineX
+#endif
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class PublisherAsObservableTests: XCTestCase {
@@ -19,8 +24,9 @@ class PublisherAsObservableTests: XCTestCase {
         disposeBag = .init()
     }
 
+#if canImport(Combine)
     func testIntPublisher() {
-        let source = (1...100).publisher
+		let source = (1...100).publisher
         var events = [RxSwift.Event<Int>]()
 
         source
@@ -34,7 +40,7 @@ class PublisherAsObservableTests: XCTestCase {
 
     func testStringPublisher() {
         let input = "Hello world I'm a RxSwift Observable".components(separatedBy: " ")
-        let source = input.publisher
+		let source = input.publisher
         var events = [RxSwift.Event<String>]()
 
         source
@@ -46,7 +52,7 @@ class PublisherAsObservableTests: XCTestCase {
     }
 
     func testFailingPublisher() {
-        let source = (1...100).publisher
+		let source = (1...100).publisher
         var events = [RxSwift.Event<Int>]()
 
         source
@@ -62,6 +68,51 @@ class PublisherAsObservableTests: XCTestCase {
 
         XCTAssertEqual(events, (1...14).map { .next($0) } + [.error(FakeError.ohNo)])
     }
+#else
+	func testIntPublisher() {
+		let source = (1...100).cx.publisher
+		var events = [RxSwift.Event<Int>]()
+
+		source
+			.asObservable()
+			.subscribe { events.append($0) }
+			.disposed(by: disposeBag)
+
+		XCTAssertEqual(events,
+					   (1...100).map { .next($0) } + [.completed])
+	}
+
+	func testStringPublisher() {
+		let input = "Hello world I'm a RxSwift Observable".components(separatedBy: " ")
+		let source = input.cx.publisher
+		var events = [RxSwift.Event<String>]()
+
+		source
+			.asObservable()
+			.subscribe { events.append($0) }
+			.disposed(by: disposeBag)
+
+		XCTAssertEqual(events, input.map { .next($0) } + [.completed])
+	}
+
+	func testFailingPublisher() {
+		let source = (1...100).cx.publisher
+		var events = [RxSwift.Event<Int>]()
+
+		source
+			.setFailureType(to: FakeError.self)
+			.tryMap { val -> Int in
+				guard val < 15 else { throw FakeError.ohNo }
+				return val
+			}
+			.asObservable()
+			.subscribe { events.append($0) }
+			.disposed(by: disposeBag)
+
+
+		XCTAssertEqual(events, (1...14).map { .next($0) } + [.error(FakeError.ohNo)])
+	}
+#endif
 }
 
 

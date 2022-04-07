@@ -8,6 +8,9 @@
 
 #if canImport(Combine)
 import Combine
+#else
+import CombineX
+#endif
 import RxSwift
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -60,4 +63,3 @@ public extension Publisher where Failure == Never {
         }
     }
 }
-#endif

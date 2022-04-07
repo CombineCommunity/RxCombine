@@ -8,6 +8,12 @@
 
 #if canImport(Combine)
 import Combine
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+public typealias Subject = Combine.Subject
+#else
+import CombineX
+public typealias Subject = CombineX.Subject
+#endif
 import RxSwift
 import RxRelay
 
@@ -17,7 +23,7 @@ import RxRelay
 /// - note: This only works when the underlying Failure is Swift.Error,
 ///         since RxSwift has no typed errors.
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public protocol AnyObserverConvertible: Combine.Subject where Failure == Swift.Error {
+public protocol AnyObserverConvertible: Subject where Failure == Swift.Error {
     associatedtype Output
 
     /// Returns a RxSwift `AnyObserver` wrapping the Subject
@@ -64,4 +70,3 @@ public extension ObservableConvertibleType {
         asObservable().subscribe(subject.asAnyObserver())
     }
 }
-#endif

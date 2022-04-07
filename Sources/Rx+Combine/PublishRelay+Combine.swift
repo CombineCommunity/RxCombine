@@ -7,6 +7,9 @@
 
 #if canImport(Combine)
 import Combine
+#else
+import CombineX
+#endif
 import RxSwift
 import RxRelay
 
@@ -14,7 +17,7 @@ import RxRelay
 
 /// A bi-directional wrapper for a RxSwift Publish Relay
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public final class RxPassthroughRelay<Output>: Combine.Subject {
+public final class RxPassthroughRelay<Output>: Subject {
     private let rxRelay: PublishRelay<Output>
     private let subject = PassthroughSubject<Output, Never>()
     private let subscription: AnyCancellable?
@@ -51,4 +54,3 @@ public extension PublishRelay {
         RxPassthroughRelay(rxRelay: self)
     }
 }
-#endif

@@ -8,6 +8,9 @@
 
 #if canImport(Combine)
 import Combine
+#else
+import CombineX
+#endif
 import RxSwift
 import RxRelay
 
@@ -48,4 +51,3 @@ extension PublishRelay {
         publisher
     }
 }
-#endif

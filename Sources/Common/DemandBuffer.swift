@@ -8,6 +8,9 @@
 
 #if canImport(Combine)
 import Combine
+#else
+import CombineX
+#endif
 import class Foundation.NSRecursiveLock
 
 /// A buffer responsible for managing the demand of a downstream
@@ -127,4 +130,3 @@ private extension DemandBuffer {
         var sent: Subscribers.Demand = .none
     }
 }
-#endif
