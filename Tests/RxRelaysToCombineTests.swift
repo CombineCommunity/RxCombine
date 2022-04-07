@@ -5,12 +5,17 @@
 //  Created by Shai Mishali on 21/03/2020.
 //
 
-#if !os(watchOS)
+#if !os(watchOS) && (canImport(Combine) || canImport(CombineX))
 import XCTest
 import RxCombine
 import RxSwift
 import RxRelay
+
+#if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class RxRelaysToCombineTests: XCTestCase {

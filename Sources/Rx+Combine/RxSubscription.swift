@@ -6,13 +6,20 @@
 //  Copyright © 2020 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+private typealias Subscription = Combine.Subscription
+#elseif canImport(CombineX)
+import CombineX
+private typealias Subscription = CombineX.Subscription
+#endif
 import RxSwift
 
 // MARK: - Fallible
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-class RxSubscription<Upstream: ObservableConvertibleType, Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Upstream.Element, Downstream.Failure == Swift.Error {
+class RxSubscription<Upstream: ObservableConvertibleType, Downstream: Subscriber>: Subscription where Downstream.Input == Upstream.Element, Downstream.Failure == Swift.Error {
     private var disposable: Disposable?
     private let buffer: DemandBuffer<Downstream>
 
@@ -52,7 +59,7 @@ extension RxSubscription: CustomStringConvertible {
 
 // MARK: - Infallible
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-class RxInfallibleSubscription<Upstream: ObservableConvertibleType, Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Upstream.Element, Downstream.Failure == Never {
+class RxInfallibleSubscription<Upstream: ObservableConvertibleType, Downstream: Subscriber>: Subscription where Downstream.Input == Upstream.Element, Downstream.Failure == Never {
     private var disposable: Disposable?
     private let buffer: DemandBuffer<Downstream>
 

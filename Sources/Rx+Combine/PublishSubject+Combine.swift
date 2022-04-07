@@ -6,15 +6,19 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 import RxSwift
 
 // MARK: - Behavior Subject as Combine Subject
 
 /// A bi-directional wrapper for a RxSwift Publish Subject
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public final class RxPassthroughSubject<Output>: Combine.Subject {
+public final class RxPassthroughSubject<Output>: Subject {
     private let rxSubject: PublishSubject<Output>
     private let subject = PassthroughSubject<Output, Failure>()
     private let subscription: AnyCancellable?

@@ -5,8 +5,12 @@
 //  Created by Shai Mishali on 10/05/2020.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 import RxSwift
 import RxRelay
 
@@ -14,7 +18,7 @@ import RxRelay
 
 /// A bi-directional wrapper for a RxSwift Behavior Relay
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public final class RxCurrentValueRelay<Output>: Combine.Subject {
+public final class RxCurrentValueRelay<Output>: Subject {
     private let rxRelay: BehaviorRelay<Output>
     private let subject: CurrentValueSubject<Output, Never>
     private let subscription: AnyCancellable?

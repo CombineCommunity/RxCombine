@@ -6,11 +6,16 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
-#if !os(watchOS)
+#if !os(watchOS) && (canImport(Combine) || canImport(CombineX))
 import XCTest
 import RxCombine
 import RxSwift
+
+#if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class ObservableAsPublisherTests: XCTestCase {

@@ -6,15 +6,19 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 import RxSwift
 
 // MARK: - Behavior Subject as Combine Subject
 
 /// A bi-directional wrapper for a RxSwift Behavior Subject
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public final class RxCurrentValueSubject<Output>: Combine.Subject {
+public final class RxCurrentValueSubject<Output>: Subject {
     private let rxSubject: BehaviorSubject<Output>
     private let subject: CurrentValueSubject<Output, Failure>
     private let subscription: AnyCancellable?

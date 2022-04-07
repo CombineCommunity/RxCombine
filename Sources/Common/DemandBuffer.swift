@@ -6,8 +6,12 @@
 //  Copyright © 2020 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+#elseif canImport(CombineX)
+import CombineX
+#endif
 import class Foundation.NSRecursiveLock
 
 /// A buffer responsible for managing the demand of a downstream

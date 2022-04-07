@@ -6,8 +6,15 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+public typealias Subject = Combine.Subject
+#elseif canImport(CombineX)
+import CombineX
+public typealias Subject = CombineX.Subject
+#endif
 import RxSwift
 import RxRelay
 
@@ -17,7 +24,7 @@ import RxRelay
 /// - note: This only works when the underlying Failure is Swift.Error,
 ///         since RxSwift has no typed errors.
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public protocol AnyObserverConvertible: Combine.Subject where Failure == Swift.Error {
+public protocol AnyObserverConvertible: Subject where Failure == Swift.Error {
     associatedtype Output
 
     /// Returns a RxSwift `AnyObserver` wrapping the Subject

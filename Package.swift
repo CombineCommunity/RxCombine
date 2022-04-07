@@ -2,6 +2,16 @@
 
 import PackageDescription
 
+var dependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.0.0")
+]
+var targetDependencies: [Target.Dependency] = ["RxSwift", "RxRelay"]
+
+#if os(Linux)
+dependencies.append(.package(url: "https://github.com/cx-org/CombineX", from: "0.4.0"))
+targetDependencies.append("CombineX")
+#endif
+
 let package = Package(
     name: "RxCombine",
     platforms: [
@@ -10,15 +20,14 @@ let package = Package(
     products: [
         .library(
             name: "RxCombine",
-            targets: ["RxCombine"]),
+            targets: ["RxCombine"]
+        ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.0.0")
-    ],
+    dependencies: dependencies,
     targets: [
         .target(
             name: "RxCombine",
-            dependencies: ["RxSwift", "RxRelay"],
+            dependencies: targetDependencies,
             path: "Sources"),
         .testTarget(
             name: "RxCombineTests",
