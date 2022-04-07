@@ -5,9 +5,10 @@
 //  Created by Shai Mishali on 10/05/2020.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
-#else
+#elseif canImport(CombineX)
 import CombineX
 #endif
 import RxSwift
@@ -60,3 +61,4 @@ public extension BehaviorRelay {
         RxCurrentValueRelay(rxRelay: self)
     }
 }
+#endif

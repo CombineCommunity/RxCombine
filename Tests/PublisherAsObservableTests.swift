@@ -5,14 +5,14 @@
 //  Created by Shai Mishali on 21/03/2020.
 //
 
-#if !os(watchOS)
+#if !os(watchOS) && (canImport(Combine) || canImport(CombineX))
 import XCTest
 import RxCombine
 import RxSwift
 
 #if canImport(Combine)
 import Combine
-#else
+#elseif canImport(CombineX)
 import CombineX
 #endif
 
@@ -68,7 +68,7 @@ class PublisherAsObservableTests: XCTestCase {
 
         XCTAssertEqual(events, (1...14).map { .next($0) } + [.error(FakeError.ohNo)])
     }
-#else
+#elseif canImport(CombineX)
 	func testIntPublisher() {
 		let source = (1...100).cx.publisher
 		var events = [RxSwift.Event<Int>]()

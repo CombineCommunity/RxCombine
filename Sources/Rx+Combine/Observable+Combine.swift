@@ -6,9 +6,10 @@
 //  Copyright © 2019 Combine Community. All rights reserved.
 //
 
+#if canImport(Combine) || canImport(CombineX)
 #if canImport(Combine)
 import Combine
-#else
+#elseif canImport(CombineX)
 import CombineX
 #endif
 import RxSwift
@@ -48,3 +49,4 @@ public class RxPublisher<Upstream: ObservableConvertibleType>: Publisher {
                                                         downstream: subscriber))
     }
 }
+#endif
