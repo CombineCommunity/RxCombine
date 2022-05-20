@@ -86,6 +86,21 @@ class ObservableAsPublisherTests: XCTestCase {
         XCTAssertEqual(values, Array(1...10))
         XCTAssertTrue(completed)
     }
+
+    func testStringInfallible() {
+        let input = "Hello world I'm a RxSwift Infallible".components(separatedBy: " ")
+        let source = Infallible.from(input)
+        var values = [String]()
+        var completed = false
+
+        subscription = source
+            .asPublisher()
+            .handleEvents(receiveCompletion: { _ in completed = true })
+            .sink(receiveValue: { values.append($0) }) // this syntax is only allowed when Failure == Never
+
+        XCTAssertEqual(values, input)
+        XCTAssertTrue(completed)
+    }
 }
 
 enum FakeError: Swift.Error {
