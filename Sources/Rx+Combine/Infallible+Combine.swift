@@ -11,7 +11,10 @@ public extension Infallible {
     /// An `AnyPublisher` of the underlying Observable's Element type
     /// so the Infallible pushes events to the Publisher.
     var publisher: AnyPublisher<Element, Swift.Never> {
-        RxInfalliblePublisher(upstream: self).eraseToAnyPublisher()
+        asObservable()
+            .asPublisher()
+            .assertNoFailure("Infallible should not fail")
+            .eraseToAnyPublisher()
     }
     
     /// Returns a `AnyPublisher` of the underlying Observable's Element type
@@ -24,21 +27,4 @@ public extension Infallible {
     }
 }
 
-/// A Publisher of failure type Never pushing RxSwift events to a Downstream Combine subscriber.
-@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public class RxInfalliblePublisher<Upstream: ObservableConvertibleType>: Publisher {
-    public typealias Output = Upstream.Element
-    public typealias Failure = Swift.Never
-
-    private let upstream: Upstream
-
-    init(upstream: Upstream) {
-        self.upstream = upstream
-    }
-
-    public func receive<S: Subscriber>(subscriber: S) where Failure == S.Failure, Output == S.Input {
-        subscriber.receive(subscription: RxInfallibleSubscription(upstream: upstream,
-                                                        downstream: subscriber))
-    }
-}
 #endif
