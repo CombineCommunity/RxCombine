@@ -19,7 +19,8 @@ class RxSubscription<Upstream: ObservableConvertibleType, Downstream: Subscriber
     init(upstream: Upstream,
          downstream: Downstream) {
         buffer = DemandBuffer(subscriber: downstream)
-        disposable = upstream.asObservable().subscribe(bufferRxEvents)
+        disposable = upstream.asObservable()
+            .subscribe { [unowned self] in self.bufferRxEvents($0) }
     }
 
     private func bufferRxEvents(_ event: RxSwift.Event<Upstream.Element>) {
