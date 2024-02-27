@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 
 import PackageDescription
 
@@ -10,7 +10,8 @@ let package = Package(
     products: [
         .library(
             name: "RxCombine",
-            targets: ["RxCombine"]),
+            targets: ["RxCombine"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.0.0")
@@ -18,8 +19,12 @@ let package = Package(
     targets: [
         .target(
             name: "RxCombine",
-            dependencies: ["RxSwift", "RxRelay"],
-            path: "Sources"),
+            dependencies: [
+                "RxSwift",
+                .product(name: "RxRelay", package: "RxSwift"),
+            ],
+            path: "Sources"
+        ),
         .testTarget(
             name: "RxCombineTests",
             dependencies: ["RxCombine"],
